@@ -1,0 +1,21 @@
+# Dockerfile for the API server
+FROM node:20-alpine
+
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
+
+WORKDIR /app
+
+# Copy package files
+COPY server/package.json server/pnpm-lock.yaml* ./
+
+# Install production dependencies
+RUN pnpm install --frozen-lockfile --prod
+
+# Copy server source
+COPY server/ ./
+
+# Expose port 3000
+EXPOSE 3000
+
+# Start the server
+CMD ["node", "src/server.js"]

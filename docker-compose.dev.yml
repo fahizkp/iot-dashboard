@@ -1,0 +1,41 @@
+# Development Docker Compose Configuration
+# Run with: docker compose -f docker-compose.dev.yml up
+
+services:
+  # Backend API server (development)
+  sample-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: sample-api-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - CORS_ORIGIN=http://localhost:5173
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    command: pnpm dev
+
+  # Frontend dev server (development)
+  sample-client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: sample-client-dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - sample-api

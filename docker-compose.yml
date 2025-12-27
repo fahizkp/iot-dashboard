@@ -1,0 +1,52 @@
+# Production Docker Compose Configuration
+# Replace placeholders before deploying:
+#   - <your-username>: Your GitHub username or organization
+#   - <your-app>: Your application name
+#   - <your-domain>: Your domain name (e.g., example.com)
+
+services:
+  # Backend API server
+  sample-api:
+    image: ghcr.io/<your-username>/<your-app>-api:latest
+    container_name: sample-api
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - CORS_ORIGIN=https://<your-domain>
+    networks:
+      - infra
+      - sample-internal
+
+  # Frontend + nginx
+  sample-server:
+    image: ghcr.io/<your-username>/<your-app>:latest
+    container_name: sample-server
+    restart: unless-stopped
+    depends_on:
+      - sample-api
+    networks:
+      - web
+      - sample-internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sample-server.rule=Host(`<your-domain>`)"
+      - "traefik.http.routers.sample-server.entrypoints=websecure"
+      - "traefik.http.routers.sample-server.tls=true"
+      - "traefik.http.routers.sample-server.tls.certresolver=myresolver"
+      - "traefik.http.services.sample-server.loadbalancer.server.port=80"
+      # HTTP to HTTPS redirect
+      - "traefik.http.routers.sample-server-http.rule=Host(`<your-domain>`)"
+      - "traefik.http.routers.sample-server-http.entrypoints=web"
+      - "traefik.http.routers.sample-server-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+networks:
+  web:
+    external: true
+  infra:
+    external: true
+  sample-internal:
