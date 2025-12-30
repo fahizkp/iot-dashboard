@@ -3,11 +3,11 @@
 
 services:
   # Backend API server (development)
-  sample-api:
+  sample-app-api:
     build:
       context: .
       dockerfile: Dockerfile.api
-    container_name: sample-api-dev
+    container_name: sample-app-api-dev
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -24,11 +24,11 @@ services:
     command: pnpm dev
 
   # Frontend dev server (development)
-  sample-client:
+  sample-app-client:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    container_name: sample-client-dev
+    container_name: sample-app-client-dev
     restart: unless-stopped
     ports:
       - "5173:5173"
@@ -38,4 +38,4 @@ services:
       - ./client:/app
       - /app/node_modules
     depends_on:
-      - sample-api
+      - sample-app-api

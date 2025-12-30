@@ -6,9 +6,9 @@
 
 services:
   # Backend API server
-  sample-api:
+  sample-app-api:
     image: ghcr.io/<your-username>/<your-app>-api:latest
-    container_name: sample-api
+    container_name: sample-app-api
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -19,29 +19,29 @@ services:
       - CORS_ORIGIN=https://<your-domain>
     networks:
       - infra
-      - sample-internal
+      - sample-app-internal
 
   # Frontend + nginx
-  sample-server:
+  sample-app:
     image: ghcr.io/<your-username>/<your-app>:latest
-    container_name: sample-server
+    container_name: sample-app
     restart: unless-stopped
     depends_on:
-      - sample-api
+      - sample-app-api
     networks:
       - web
-      - sample-internal
+      - sample-app-internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sample-server.rule=Host(`<your-domain>`)"
-      - "traefik.http.routers.sample-server.entrypoints=websecure"
-      - "traefik.http.routers.sample-server.tls=true"
-      - "traefik.http.routers.sample-server.tls.certresolver=myresolver"
-      - "traefik.http.services.sample-server.loadbalancer.server.port=80"
+      - "traefik.http.routers.sample-app.rule=Host(`<your-domain>`)"
+      - "traefik.http.routers.sample-app.entrypoints=websecure"
+      - "traefik.http.routers.sample-app.tls=true"
+      - "traefik.http.routers.sample-app.tls.certresolver=myresolver"
+      - "traefik.http.services.sample-app.loadbalancer.server.port=80"
       # HTTP to HTTPS redirect
-      - "traefik.http.routers.sample-server-http.rule=Host(`<your-domain>`)"
-      - "traefik.http.routers.sample-server-http.entrypoints=web"
-      - "traefik.http.routers.sample-server-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.sample-app-http.rule=Host(`<your-domain>`)"
+      - "traefik.http.routers.sample-app-http.entrypoints=web"
+      - "traefik.http.routers.sample-app-http.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
 networks:
@@ -49,4 +49,4 @@ networks:
     external: true
   infra:
     external: true
-  sample-internal:
+  sample-app-internal:
