@@ -10,7 +10,11 @@ const connectDB = require('./config/database');
 const { validateEnv, port, nodeEnv, corsOrigin } = require('./config/env');
 const authRoutes = require('./routes/auth');
 const contactRoutes = require('./routes/contacts');
+const vehicleRoutes = require('./routes/vehicles');
+const iotRoutes = require('./routes/iot');
 const errorHandler = require('./middleware/errorHandler');
+const seedDatabase = require('./seed');
+const { startPoller, stopPoller } = require('./services/iotPoller');
 
 // Validate environment variables
 validateEnv();
@@ -57,6 +61,8 @@ app.get('/api/health', (req, res) => {
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactRoutes);
+app.use('/api/vehicles', vehicleRoutes);
+app.use('/api/iot', iotRoutes);
 
 // 404 handler
 app.use('/api/*', (req, res) => {
@@ -73,6 +79,12 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();
+
+    // Seed database if empty
+    await seedDatabase();
+
+    // Start IoT poller (no-op if IOT_API_URL is not configured)
+    startPoller();
 
     app.listen(port, () => {
       console.log(`Server running in ${nodeEnv} mode on port ${port}`);
@@ -98,6 +110,7 @@ process.on('uncaughtException', (err) => {
 // Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('SIGTERM received. Shutting down gracefully...');
+  stopPoller();
   process.exit(0);
 });
 

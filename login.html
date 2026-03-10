@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en"
+  class='light-style layout-menu-fixed'
+  data-theme="theme-default" data-assets-path='/'
+  data-framework="aspnetcore-mvc"
+  data-template='vertical-menu-aspnet-core-mvc-template-free'>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <title>Login Basic - Pages |  - Track your data</title>
+  <meta name="description" content="" />
+
+  <!-- Canonical SEO -->
+  <link rel="canonical" href=''>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="" />
+      
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/lib/signalr/signalr.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.bootstrap5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
+    
+    <script>
+        function logOff() {
+            $.ajax({
+                url: '/Account/logOff',
+                type: 'POST',               
+                success: function (data) {
+                    console.log(data);
+                    //window.location('/');
+                },
+                error: function (error) {
+                    console.log('Error fetching data:', error);
+                }
+            });
+        }
+    </script>
+  <!-- Core Styles -->
+  <!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+
+
+  <!-- Fonts & Flag icons -->
+  <link rel="stylesheet" href="/vendor/fonts/boxicons.css?v=jZydXjgCYYlELE1W4xsN8_ZUhlrfjyFp1LeTMYfskyQ" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="/vendor/css/core.css?v=_hE8DGd8YZqQhF3iKxFCh019CUxVvj19-Xxlun2sxBc" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/vendor/css/theme-default.css?v=4A8B1wXRCI5lpvyTTdjQ2cxBAM8E-MWxVZ2xwjfmV6A" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/css/demo.css" />
+
+  <!-- `perfect-scrollbar` library required by SideNav plugin -->
+  <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css?v=Jti2qrM0g65NYKkwOIi8T09Zmf0GukGJuQknZS4L_Iw" />
+
+  <!-- Pages CSS -->
+  <link rel="stylesheet" href="/vendor/css/pages/page-auth.css?v=_3BlZuyu4BY_oeHrkEruxrKmcTtQEdt--zMzT_WP8Tc" />
+
+  <!-- Application stylesheets -->
+  <link rel="stylesheet" href="/css/site.css?v=J9tlpxVYbQzuEYFsx7FIMubEoY8Wq30xhsTMww69RR4" />
+
+
+
+  <!-- Vendor Styles -->
+    
+
+  <!-- Page Styles -->
+   
+<link rel="stylesheet" href="/vendor/css/pages/page-auth.css">
+ 
+
+  <!-- Include Scripts for customizer, helper, analytics, config -->
+  
+
+
+  <script src="/vendor/js/helpers.js?v=CyaNhc2mXnbYRgzPUqG3VNiO-2IgkYPmDBdoIZECmRw"></script>
+  <script src="/js/config.js?v=4kecNNS68-eXwBG1qLrCnOklVRuDuyqVddHKQdNLPsM"></script>
+
+
+</head>
+
+<body>
+  <!-- Layout Content -->
+  
+
+
+
+
+
+
+<div class="container-xxl">
+  <div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner">
+      <!-- Register -->
+      <div class="card">
+        <div class="card-body">
+          <!-- Logo -->
+          <!-- /Logo -->
+          <h4 class="mb-2">Login</h4>
+          <p class="mb-4">Please sign-in to your account</p>
+
+          <form id="formAuthentication" class="mb-3" method="POST" action="/Account/SignIn">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email or Username</label>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email or username" autofocus>
+            </div>
+            <div class="mb-3 form-password-toggle">
+              <div class="d-flex justify-content-between">
+                <label class="form-label" for="password">Password</label>
+              </div>
+              <div class="input-group input-group-merge">
+                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remember-me">
+                <label class="form-check-label" for="remember-me">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+            </div>
+          <input name="__RequestVerificationToken" type="hidden" value="CfDJ8G-Xkc3WK5pGvOxuV7Hq363xbIBD2c7cIGU9Vh7Su5nwTCcPGAec3V0bpQYUIXH3G07uwvCSugjOg83mpZ_E4MGXUTOxbrPG-mePB-BvpgFJtQdaVmVQSG3T_tOhtB0uLpp__1gGq8sAIH9y9bBBp8U" /></form>
+
+        </div>
+      </div>
+      <!-- /Register -->
+    </div>
+  </div>
+</div>
+
+
+
+
+  <!--/ Layout Content -->
+
+  <!-- Core Scripts -->
+  
+
+  <script src="/vendor/libs/jquery/jquery.js?v=iVUC3ZS8BtFf0AwHDxyFIQNl-JCNp4QS0AnalYtUBE8"></script>
+  <script src="/vendor/libs/popper/popper.js?v=AmtuHPd9d5npVOtOIDnoO_s_ZkLY4cjjI2SKbahC1hM"></script>
+  <script src="/vendor/js/bootstrap.js?v=f1E75zHG5twyJBrLi2CzUzCYwuoRIOAYFmpU3TlFmfU"></script>
+  <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js?v=hoUDzgebItqDJkQ8mWRGjPF5awuNtqqazMJLsRDNPdg"></script>
+  <script src="/vendor/js/menu.js?v=1CRSM44ZLk87d395VoD1KX-QX7D6PWb_bHAGUcDO4hI"></script>
+  <script src="/js/site.js?v=4Ds5eoHJhqnJscDxTmnu9p7m9F7-5BucMaeRLqrRvnY"></script>
+
+
+
+  <!-- Vendor Scripts -->
+  
+    
+
+
+
+  
+
+  <!-- Main JS-->
+  <script src='/js/main.js'></script>
+
+  <!-- Page Scripts-->
+  
+    
+
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  // <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+</body>
+
+</html>

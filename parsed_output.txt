@@ -1,0 +1,3 @@
+Array length: 1
+Device[0]: 1234567890, name: DEMO VEHICLE, points: 22
+Last point: { temp: 11.6, lat: 10.8978, lng: 76.0428, time: 2026-03-10T12:22:33.652267 }

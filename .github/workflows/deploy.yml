@@ -21,8 +21,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_FRONTEND: <your-username>/<your-app>
-  IMAGE_NAME_API: <your-username>/<your-app>-api
+  IMAGE_NAME_FRONTEND: fahizkp/iot-dashboard
+  IMAGE_NAME_API: fahizkp/iot-dashboard-api
 
 jobs:
   build-and-push:
@@ -95,7 +95,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: mkdir -p <your-deploy-path>
+          script: mkdir -p /srv/iot-dashboard
 
       - name: Copy docker-compose.yml to server
         uses: appleboy/scp-action@v0.1.7
@@ -105,7 +105,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "docker-compose.yml"
-          target: "<your-deploy-path>"
+          target: "/srv/iot-dashboard"
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
@@ -115,14 +115,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd <your-deploy-path>
+            cd /srv/iot-dashboard
 
             # Login to GHCR
-            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u <your-username> --password-stdin
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u fahizkp --password-stdin
 
             # Pull latest images
-            docker pull ghcr.io/<your-username>/<your-app>:latest
-            docker pull ghcr.io/<your-username>/<your-app>-api:latest
+            docker pull ghcr.io/fahizkp/iot-dashboard:latest
+            docker pull ghcr.io/fahizkp/iot-dashboard-api:latest
 
             # Stop and remove old containers if exist
             docker compose down || true

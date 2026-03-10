@@ -5,10 +5,9 @@
 #   - <your-domain>: Your domain name (e.g., example.com)
 
 services:
-  # Backend API server
-  sample-app-api:
-    image: ghcr.io/<your-username>/<your-app>-api:latest
-    container_name: sample-app-api
+  iot-dashboard-api:
+    image: ghcr.io/fahizkp/iot-dashboard-api:latest
+    container_name: iot-dashboard-api
     restart: unless-stopped
     environment:
       - NODE_ENV=production
@@ -16,32 +15,31 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - CORS_ORIGIN=https://<your-domain>
+      - CORS_ORIGIN=https://iot.wisdommlpe.site
     networks:
       - infra
-      - sample-app-internal
+      - iot-dashboard-internal
 
-  # Frontend + nginx
-  sample-app:
-    image: ghcr.io/<your-username>/<your-app>:latest
-    container_name: sample-app
+  iot-dashboard:
+    image: ghcr.io/fahizkp/iot-dashboard:latest
+    container_name: iot-dashboard
     restart: unless-stopped
     depends_on:
-      - sample-app-api
+      - iot-dashboard-api
     networks:
       - web
-      - sample-app-internal
+      - iot-dashboard-internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.sample-app.rule=Host(`<your-domain>`)"
-      - "traefik.http.routers.sample-app.entrypoints=websecure"
-      - "traefik.http.routers.sample-app.tls=true"
-      - "traefik.http.routers.sample-app.tls.certresolver=myresolver"
-      - "traefik.http.services.sample-app.loadbalancer.server.port=80"
+      - "traefik.http.routers.iot-dashboard.rule=Host(`iot.wisdommlpe.site`)"
+      - "traefik.http.routers.iot-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.iot-dashboard.tls=true"
+      - "traefik.http.routers.iot-dashboard.tls.certresolver=myresolver"
+      - "traefik.http.services.iot-dashboard.loadbalancer.server.port=80"
       # HTTP to HTTPS redirect
-      - "traefik.http.routers.sample-app-http.rule=Host(`<your-domain>`)"
-      - "traefik.http.routers.sample-app-http.entrypoints=web"
-      - "traefik.http.routers.sample-app-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.iot-dashboard-http.rule=Host(`iot.wisdommlpe.site`)"
+      - "traefik.http.routers.iot-dashboard-http.entrypoints=web"
+      - "traefik.http.routers.iot-dashboard-http.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
 networks:
@@ -49,4 +47,4 @@ networks:
     external: true
   infra:
     external: true
-  sample-app-internal:
+  iot-dashboard-internal:
