@@ -134,6 +134,7 @@ export default function MapView({ vehicles = [], selectedVehicle, onSelectVehicl
       center: [20.5937, 78.9629],
       zoom: 5,
       zoomControl: true,
+      scrollWheelZoom: 'center', // Makes zoom focus on the center instead of mouse cursor
     });
 
     L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
@@ -187,7 +188,7 @@ export default function MapView({ vehicles = [], selectedVehicle, onSelectVehicl
 
     map.flyTo(
       [selectedVehicle.lastLocation.lat, selectedVehicle.lastLocation.lng],
-      14,
+      17, // Increased zoom level
       { duration: 1.5 }
     );
 
