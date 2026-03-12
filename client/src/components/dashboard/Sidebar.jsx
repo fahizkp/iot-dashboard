@@ -61,6 +61,12 @@ export default function Sidebar({
                         </div>
                     </div>
                     <button
+                        className="md:hidden flex items-center justify-center p-2 text-dark-400 hover:text-dark-200 transition-colors"
+                        onClick={onToggleExpand}
+                    >
+                        {isExpanded ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
+                    </button>
+                    <button
                         className="hidden md:flex items-center gap-1 text-xs text-dark-400 hover:text-dark-200 transition-colors"
                         onClick={onToggleExpand}
                     >
