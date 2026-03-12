@@ -15,7 +15,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - CORS_ORIGIN=https://iot.wisdommlpe.site
+      - CORS_ORIGIN=https://fresh.fibiot.site
     networks:
       - infra
       - iot-dashboard-internal
@@ -31,13 +31,13 @@ services:
       - iot-dashboard-internal
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.iot-dashboard.rule=Host(`iot.wisdommlpe.site`)"
+      - "traefik.http.routers.iot-dashboard.rule=Host(`fresh.fibiot.site`)"
       - "traefik.http.routers.iot-dashboard.entrypoints=websecure"
       - "traefik.http.routers.iot-dashboard.tls=true"
       - "traefik.http.routers.iot-dashboard.tls.certresolver=myresolver"
       - "traefik.http.services.iot-dashboard.loadbalancer.server.port=80"
       # HTTP to HTTPS redirect
-      - "traefik.http.routers.iot-dashboard-http.rule=Host(`iot.wisdommlpe.site`)"
+      - "traefik.http.routers.iot-dashboard-http.rule=Host(`fresh.fibiot.site`)"
       - "traefik.http.routers.iot-dashboard-http.entrypoints=web"
       - "traefik.http.routers.iot-dashboard-http.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
