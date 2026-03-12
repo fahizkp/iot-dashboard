@@ -95,7 +95,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: mkdir -p /srv/iot-dashboard
+          script: mkdir -p /srv/apps/iot-dashboard
 
       - name: Copy docker-compose.yml to server
         uses: appleboy/scp-action@v0.1.7
@@ -105,7 +105,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: "docker-compose.yml"
-          target: "/srv/iot-dashboard"
+          target: "/srv/apps/iot-dashboard"
 
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
@@ -115,7 +115,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /srv/iot-dashboard
+            cd /srv/apps/iot-dashboard
 
             # Login to GHCR
             echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u fahizkp --password-stdin
